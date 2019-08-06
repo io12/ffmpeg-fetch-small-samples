@@ -30,8 +30,8 @@ for path in r.text.splitlines():
     except KeyError:
         continue
 
-    # Check if file is <5M
-    if size <= 5 * 10 ** 6:
+    # Check if file is <1M
+    if size < 10 ** 6:
 
         # Download file
         r = requests.get(url)
