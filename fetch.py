@@ -21,10 +21,12 @@ for path in r.text.splitlines():
     print(path)
 
     # Check if file is <5M
-    r = requests.get(BASE_URL + path, stream=True)
+    url = BASE_URL + path
+    r = requests.head(url)
     if int(r.headers['content-length']) <= 5 * 10 ** 6:
 
         # Download file
+        r = requests.get(url)
         save = f'{OUT_PATH}/{basename}'
         with open(save, 'wb') as f:
             f.write(r.content)
