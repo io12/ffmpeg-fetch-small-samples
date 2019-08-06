@@ -20,10 +20,18 @@ for path in r.text.splitlines():
 
     print(path)
 
-    # Check if file is <5M
+    # Get header
     url = BASE_URL + path
     r = requests.head(url)
-    if int(r.headers['content-length']) <= 5 * 10 ** 6:
+
+    # Get file size
+    try:
+        size = int(r.headers['content-length'])
+    except KeyError:
+        continue
+
+    # Check if file is <5M
+    if size <= 5 * 10 ** 6:
 
         # Download file
         r = requests.get(url)
