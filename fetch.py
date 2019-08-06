@@ -13,7 +13,9 @@ os.mkdir(OUT_PATH)
 r = requests.get(BASE_URL + 'allsamples.txt')
 for path in r.text.splitlines():
 
-    if path == '.':
+    basename = os.path.basename(path)
+
+    if basename == '.' or '.' not in basename:
         continue
 
     print(path)
@@ -23,7 +25,6 @@ for path in r.text.splitlines():
     if int(r.headers['content-length']) <= 5 * 10 ** 6:
 
         # Download file
-        basename = os.path.basename(path)
         save = f'{OUT_PATH}/{basename}'
         with open(save, 'wb') as f:
             f.write(r.content)
